@@ -19,7 +19,7 @@ export default class Environment
 
         this.setSunLight()
         this.setFog()
-        this.setParticles()
+        // this.setParticles()
     }
 
     setSunLight()
