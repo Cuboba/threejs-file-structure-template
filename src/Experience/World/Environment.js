@@ -66,7 +66,7 @@ export default class Environment
     }
     setFog()
     {
-        this.fog = new THREE.Fog(0x0000ff, 0, 10)
+        this.fog = new THREE.Fog(0x0000ff, 2.5, 3.5)
         this.scene.fog = this.fog
 
         // Debug
@@ -75,7 +75,7 @@ export default class Environment
             this.debugFolder
                 .add(this.fog, 'near')
                 .name('fogNear')
-                .min(0)
+                .min(-10)
                 .max(8)
                 .step(0.001)
 
