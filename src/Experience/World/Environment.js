@@ -7,7 +7,6 @@ export default class Environment
     {
         this.experience = new Experience()
         this.scene = this.experience.scene
-        // this.particles = this.experience.particles.particles
         this.resources = this.experience.resources
         this.debug = this.experience.debug
 
@@ -19,7 +18,7 @@ export default class Environment
 
         this.setSunLight()
         this.setFog()
-        // this.setParticles()
+        this.setParticles()
     }
 
     setSunLight()
@@ -89,6 +88,74 @@ export default class Environment
     }
     setParticles()
     {
+        //geometry
+        this.particlesGeometry = new THREE.BufferGeometry(1,32,32);
+        this.parameters = {};
+        this.count = 20000
+        this.parameters.count = 0
+
+        this.positions = new Float32Array(this.count * 3);
+        this.colors = new Float32Array(this.count * 3);
+
+        for (let i = 0; i < this.count * 3; i++) 
+        {
+            this.positions[i] = (Math.random() - 0.5) * 10,
+            this.colors[i] = Math.random()
+        }
+
+        this.particlesGeometry.setAttribute(
+            'position',
+            new THREE.BufferAttribute(this.positions, 3),
+        )
+
+        this.particlesGeometry.setAttribute(
+            'color',
+            new THREE.BufferAttribute(this.colors, 3),
+        )
+
+
+        //material
+        this.particlesMaterial = new THREE.PointsMaterial({
+            color: 0xCDC4EE,
+            size: 0.01,
+            sizeAttenuation: true,
+        })
+
+        this.particlesMaterial.transparent = true;
+        this.particlesMaterial.alphaMap = this.particleTexture;
+        this.particlesMaterial.depthWrite = false;
+        this.particlesMaterial.blending = THREE.AdditiveBlending;
+        this.particlesMaterial.vertexColors = true;
+
+
+        //points
+
+        this.particles = new THREE.Points(this.particlesGeometry, this.particlesMaterial);
+
         this.scene.add(this.particles)
+
+        // Debug
+        if(this.debug.active)
+        {
+            this.debugFolder
+                .add(this.particlesMaterial, 'size')
+                .name('particlePointSize')
+                .min(-0.001)
+                .max(3)
+                .step(0.0001)
+
+                this.debugFolder
+                .add(this.parameters, 'count')
+                .name('particleCount')
+                .min(10000)
+                .max(100000)
+                .step(10)
+                .onChange( () =>
+                {
+                    this.parameters.count.set(this.count)
+                }
+                )
+        }
+        
     }
 }
