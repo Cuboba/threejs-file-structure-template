@@ -1,7 +1,6 @@
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import Experience from "./Experience";
-
+import Experience from "./Experience"
+import GetScroll from './Utils/GetScroll'
 
 export default class Camera
 {
@@ -12,6 +11,7 @@ export default class Camera
         this.scene = this.experience.scene
         this.canvas = this.experience.canvas
         this.debug = this.experience.debug
+        this.GetScroll = new GetScroll()
 
         // Debug
         if(this.debug.active)
@@ -20,7 +20,7 @@ export default class Camera
         }
 
         this.setInstance()
-        this.setOrbitControls()
+        this.animateOnScroll()
     }
 
     setInstance()
@@ -33,6 +33,7 @@ export default class Camera
             100
         )
         this.instance.position.set(2.5, 0, 0)
+        this.instance.lookAt(0,0,0)
         this.scene.add(this.instance)
        
         // Debug
@@ -62,6 +63,18 @@ export default class Camera
 
     }
 
+    animateOnScroll()
+    {
+        this.GetScroll.on('scroll', () =>
+        {
+            this.scrollY = this.GetScroll.scrollY
+            this.instance.position.y = this.scrollY * -0.01
+            this.instance.lookAt(0,this.instance.position.y,0)
+        }
+        )
+    }
+
+
     setOrbitControls()
     {
         this.controls = new OrbitControls(this.instance, this.canvas)
@@ -74,8 +87,4 @@ export default class Camera
         this.instance.updateProjectionMatrix()
     }
 
-    update()
-    {
-        this.controls.update()
-    }
 }

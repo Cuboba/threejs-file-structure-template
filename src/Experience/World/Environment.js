@@ -7,7 +7,6 @@ export default class Environment
     {
         this.experience = new Experience()
         this.scene = this.experience.scene
-        // this.particles = this.experience.particles.particles
         this.resources = this.experience.resources
         this.debug = this.experience.debug
 
@@ -19,7 +18,7 @@ export default class Environment
 
         this.setSunLight()
         this.setFog()
-        // this.setParticles()
+        this.setParticles()
     }
 
     setSunLight()
@@ -87,8 +86,99 @@ export default class Environment
                 .step(0.001)
         }
     }
-    setParticles()
+    setParticles ()
     {
-        this.scene.add(this.particles)
+        this.parameters = {}
+        this.parameters.count = 40000
+        this.parameters.size = 0.01
+
+        this.particlesGeometry = null
+        this.particlesMaterial = null
+        this.particles = null
+
+
+        this.generateParticles = () =>
+        {
+            this.positions = new Float32Array(this.parameters.count * 3);
+            this.colors = new Float32Array(this.parameters.count * 3);
+
+        // destroy old particles
+
+        if(this.particles !== null)
+        {
+            this.particlesGeometry.dispose()
+            this.particlesMaterial.dispose()
+            this.scene.remove(this.particles)
+        }
+
+        
+
+        //geometry
+        this.particlesGeometry = new THREE.BufferGeometry(1,32,32);
+    
+
+        for (let i = 0; i < this.parameters.count * 3; i++) 
+        {
+            this.positions[i] = (Math.random() - 0.5) * 20,
+            this.colors[i] = Math.random()
+        }
+
+        this.particlesGeometry.setAttribute(
+            'position',
+            new THREE.BufferAttribute(this.positions, 3),
+        )
+
+        this.particlesGeometry.setAttribute(
+            'color',
+            new THREE.BufferAttribute(this.colors, 3),
+        )
+
+
+        //material
+        this.particlesMaterial = new THREE.PointsMaterial({
+            color: 0xCDC4EE,
+            size: this.parameters.size,
+            sizeAttenuation: true,
+        })
+
+        this.particlesMaterial.transparent = true;
+        this.particlesMaterial.alphaMap = this.particleTexture;
+        this.particlesMaterial.depthWrite = false;
+        this.particlesMaterial.blending = THREE.AdditiveBlending;
+        this.particlesMaterial.vertexColors = true;
+
+        //points
+
+        this.particles = new THREE.Points(this.particlesGeometry, this.particlesMaterial);
+
+        
+            this.scene.add(this.particles)
+        }
+
+    this.generateParticles()
+     
+
+
+        
+    // Debug
+    if(this.debug.active)
+    {
+        this.debugFolder
+            .add(this.parameters, 'size')
+            .name('particlePointSize')
+            .min(-0.001)
+            .max(3)
+            .step(0.0001)
+            .onFinishChange(this.generateParticles)
+
+            this.debugFolder
+            .add(this.parameters, 'count')
+            .name('particleCount')
+            .min(0)
+            .max(1000000)
+            .step(10)
+            .onFinishChange(this.generateParticles)
+    }
+
     }
 }
