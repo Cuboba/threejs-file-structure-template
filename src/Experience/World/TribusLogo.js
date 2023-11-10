@@ -25,8 +25,8 @@ export default class TribusLogo
         this.resource = this.resources.items.tribusLogo
 
         this.setModel()
-        // this.animateOnScroll()
-        // this.animateOnMouseMove()
+        this.animateOnScroll()
+        this.animateOnMouseMove()
     }
 
     setModel()

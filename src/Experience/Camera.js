@@ -20,7 +20,6 @@ export default class Camera
         }
 
         this.setInstance()
-        this.animateOnScroll()
     }
 
     setInstance()
@@ -61,17 +60,6 @@ export default class Camera
                .step(0.001)
        }
 
-    }
-
-    animateOnScroll()
-    {
-        this.GetScroll.on('scroll', () =>
-        {
-            this.scrollY = this.GetScroll.scrollY
-            this.instance.position.y = this.scrollY * -0.01
-            this.instance.lookAt(0,this.instance.position.y,0)
-        }
-        )
     }
 
 
