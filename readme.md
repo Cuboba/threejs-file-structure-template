@@ -1,4 +1,4 @@
-# Tribus logo rotates on scroll
+# 3D Model rotates on scroll
 
 ## Setup
 Download [Node.js](https://nodejs.org/en/download/).
