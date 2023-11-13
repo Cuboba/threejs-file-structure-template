@@ -1,6 +1,6 @@
 import Experience from "../Experience";
 import Environment from "./Environment.js"
-import TribusLogo from './TribusLogo';
+import Vinayagar from "./vinayagar.js";
 
 export default class World
 {
@@ -15,7 +15,7 @@ export default class World
         {
              // Setup
              this.environment = new Environment()
-             this.TribusLogo = new TribusLogo()
+             this.vinayagar = new Vinayagar()
              
         })
     }

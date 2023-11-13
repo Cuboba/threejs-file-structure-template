@@ -1,7 +1,7 @@
 export default [
     {
-        name: 'tribusLogo',
+        name: 'vinayagar',
         type: 'gltfModel',
-        path: 'models/tribusLogo.glb'
+        path: 'models/vinayagar.glb'
     }
 ]

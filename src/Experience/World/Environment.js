@@ -17,7 +17,6 @@ export default class Environment
         }
 
         this.setSunLight()
-        this.setFog()
     }
 
     setSunLight()
@@ -60,29 +59,6 @@ export default class Environment
                 .min(-5)
                 .max(5)
                 .step(0.001) 
-        }
-    }
-    setFog()
-    {
-        this.fog = new THREE.Fog(0x0000ff, 2.5, 3.5)
-        this.scene.fog = this.fog
-
-        // Debug
-        if(this.debug.active)
-        {
-            this.debugFolder
-                .add(this.fog, 'near')
-                .name('fogNear')
-                .min(-10)
-                .max(8)
-                .step(0.001)
-
-            this.debugFolder
-                .add(this.fog, 'far')
-                .name('fogFar')
-                .min(-100)
-                .max(100)
-                .step(0.001)
         }
     }
 }

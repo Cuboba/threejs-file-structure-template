@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import Experience from "./Experience"
 import GetScroll from './Utils/GetScroll'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 export default class Camera
 {
@@ -20,6 +21,10 @@ export default class Camera
         }
 
         this.setInstance()
+
+        // Controls
+        this.controls = new OrbitControls(this.instance, this.canvas)
+        this.controls.enableDamping = true
     }
 
     setInstance()
@@ -31,7 +36,7 @@ export default class Camera
             0.1,
             100
         )
-        this.instance.position.set(2.5, 0, 0)
+        this.instance.position.set(10, 0, 0)
         this.instance.lookAt(0,0,0)
         this.scene.add(this.instance)
        
